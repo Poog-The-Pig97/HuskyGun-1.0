@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="height:200vh;">
+    <div id="ghost" style="position:fixed; width:15px; height:15px; background:red; border-radius:50%; pointer-events:none; transition: all 0.1s;"></div>
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            setTimeout(() => {
+                const g = document.getElementById('ghost');
+                g.style.left = e.clientX + 'px';
+                g.style.top = e.clientY + 'px';
+            }, 400);
+        });
+    </script>
+</body>
+</html>

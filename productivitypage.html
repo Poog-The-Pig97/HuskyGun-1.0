@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Workspace Portal</title>
+  <style>
+    body {
+      margin: 0; font-family: 'Courier New', monospace; background: #f4f6f9;
+      color: #333; overflow: hidden; transition: background 0.1s;
+    }
+    #calm-screen {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100vh; text-align: center;
+    }
+    .btn {
+      padding: 15px 30px; font-size: 18px; background: #0066cc; color: white;
+      border: none; border-radius: 5px; cursor: pointer; margin-top: 20px;
+    }
+    #chaos-overlay {
+      display: none; position: fixed; inset: 0; background: #111; color: #0f0;
+      padding: 20px; z-index: 10;
+    }
+    .popup {
+      position: absolute; width: 260px; background: #222; border: 2px solid #ff3333;
+      color: #fff; padding: 12px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    }
+    .popup-header {
+      background: #ff3333; color: #000; font-weight: bold; padding: 4px 8px;
+      margin: -12px -12px 10px -12px; display: flex; justify-content: space-between;
+    }
+    .shake { animation: shake 0.15s infinite; }
+    @keyframes shake {
+      0% { transform: translate(2px, 1px); }
+      50% { transform: translate(-2px, -2px); }
+      100% { transform: translate(1px, 2px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="calm-screen">
+    <h1>Daily Status Report</h1>
+    <p>Click below to load your scheduled tasks for today.</p>
+    <button class="btn" onclick="startMeltdown()">Load Tasks</button>
+  </div>
+
+  <div id="chaos-overlay">
+    <h1 style="color: #ff3333;">[!] CRITICAL OVERLOAD DETECTED [!]</h1>
+    <p>CPU Core Temperature: <span id="temp">45</span>°C</p>
+    <p>Active Threads: <span id="threads">1</span></p>
+    <p id="log"></p>
+  </div>
+
+  <script>
+    let boxCount = 0;
+    const maxBoxes = 35; // Safe limit to prevent browser lag
+    let temp = 45;
+
+    function startMeltdown() {
+      document.getElementById('calm-screen').style.display = 'none';
+      const overlay = document.getElementById('chaos-overlay');
+      overlay.style.display = 'block';
+      overlay.classList.add('shake');
+
+      // Rapidly increase fake temperature
+      setInterval(() => {
+        temp += Math.floor(Math.random() * 14);
+        document.getElementById('temp').innerText = temp;
+        document.getElementById('threads').innerText = boxCount * 128;
+      }, 150);
+
+      // Spawn multiplying error windows
+      setInterval(spawnWarning, 300);
+    }
+
+    function spawnWarning() {
+      if (boxCount >= maxBoxes) return;
+      boxCount++;
+      const div = document.createElement('div');
+      div.className = 'popup';
+      div.style.left = Math.random() * (window.innerWidth - 280) + 'px';
+      div.style.top = Math.random() * (window.innerHeight - 140) + 'px';
+      div.innerHTML = `
+        <div class="popup-header">
+          <span>ERROR 0x00${boxCount}</span>
+          <span style="cursor:pointer;" onclick="cloneBox(this)">[X]</span>
+        </div>
+        <p>Warning: Coffee levels critically low. System unstable.</p>
+      `;
+      document.getElementById('chaos-overlay').appendChild(div);
+    }
+
+    function cloneBox(btn) {
+      btn.parentElement.parentElement.remove();
+      boxCount--;
+      spawnWarning();
+      spawnWarning();
+    }
+  </script>
+</body>
+</html>

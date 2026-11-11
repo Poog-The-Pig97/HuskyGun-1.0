@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:40px; font-family:sans-serif;">
+    <h3>Try typing something in this box:</h3>
+    <input type="text" id="box" style="width:300px; padding:8px;">
+    <script>
+        document.getElementById('box').addEventListener('keydown', (e) => {
+            if (e.key.length === 1) {
+                e.preventDefault();
+                document.getElementById('box').value += ' [REDACTED] ';
+            }
+        });
+    </script>
+</body>
+</html>

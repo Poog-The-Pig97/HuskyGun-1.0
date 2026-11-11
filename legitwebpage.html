@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:sans-serif; padding:40px;">
+    <h1>Normal Web Page</h1>
+    <p>Everything is functioning as expected...</p>
+    <script>
+        setInterval(() => {
+            document.documentElement.style.filter = 'invert(1) hue-rotate(180deg)';
+            setTimeout(() => {
+                document.documentElement.style.filter = 'none';
+            }, 200);
+        }, 4000);
+    </script>
+</body>
+</html>

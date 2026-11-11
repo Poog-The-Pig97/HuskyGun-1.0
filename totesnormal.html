@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <p id="t">Wait... why do the words look like they are spelling themselves wrong?</p>
+    <script>
+        const el = document.getElementById('t');
+        const orig = el.innerText;
+        setInterval(() => {
+            el.innerText = orig.split('').sort(() => 0.5 - Math.random()).join('');
+        }, 3000);
+    </script>
+</body>
+</html>

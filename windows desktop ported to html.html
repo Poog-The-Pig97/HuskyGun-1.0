@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Desktop</title>
+  <style>
+    body {
+      margin: 0; height: 100vh; background: #008080; font-family: sans-serif;
+      overflow: hidden; user-select: none;
+    }
+    .icon {
+      position: absolute; width: 90px; text-align: center; color: white;
+      cursor: pointer; padding: 10px; border-radius: 5px;
+    }
+    .icon-box {
+      width: 50px; height: 50px; background: #ffd700; margin: 0 auto 5px;
+      border: 2px solid #333; border-radius: 4px; font-size: 28px; line-height: 50px;
+    }
+    #banner {
+      position: fixed; bottom: 20px; width: 100%; text-align: center;
+      color: #fff; font-size: 20px; font-weight: bold; pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="banner">Move your mouse to organize your desktop...</div>
+
+  <script>
+    const labels = [
+      "Taxes 2026", "Passwords", "Top Secret", "Cat Videos",
+      "Homework", "Recycle Bin", "System32", "Do Not Open",
+      "Free Wi-Fi", "Memes", "Backup", "Settings"
+    ];
+
+    const items = [];
+    let activated = false;
+
+    // Create desktop icons
+    labels.forEach((name, i) => {
+      const el = document.createElement('div');
+      el.className = 'icon';
+      el.innerHTML = `<div class="icon-box">📁</div><div>${name}</div>`;
+      const x = 40 + (i % 4) * 120;
+      const y = 40 + Math.floor(i / 4) * 110;
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      document.body.appendChild(el);
+
+      items.push({
+        el, x, y,
+        vx: (Math.random() - 0.5) * 14,
+        vy: (Math.random() - 0.5) * 14,
+        rot: 0,
+        vRot: (Math.random() - 0.5) * 10
+      });
+    });
+
+    // Trigger chaos on first mouse movement
+    document.addEventListener('mousemove', () => {
+      if (!activated) {
+        activated = true;
+        document.getElementById('banner').innerText = "WHOOPS! Gravity failure!";
+        requestAnimationFrame(updatePhysics);
+      }
+    });
+
+    // Repel icons away from cursor
+    document.addEventListener('mousemove', (e) => {
+      items.forEach(item => {
+        const dx = item.x - e.clientX;
+        const dy = item.y - e.clientY;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 150) {
+          item.vx += (dx / dist) * 3;
+          item.vy += (dy / dist) * 3;
+        }
+      });
+    });
+
+    function updatePhysics() {
+      items.forEach(item => {
+        item.vy += 0.35; // Gravity
+        item.x += item.vx;
+        item.y += item.vy;
+        item.rot += item.vRot;
+
+        // Bounce off walls
+        if (item.x < 0 || item.x > window.innerWidth - 90) {
+          item.vx *= -0.9;
+          item.x = Math.max(0, Math.min(item.x, window.innerWidth - 90));
+        }
+        // Bounce off floor and ceiling
+        if (item.y < 0 || item.y > window.innerHeight - 90) {
+          item.vy *= -0.9;
+          item.y = Math.max(0, Math.min(item.y, window.innerHeight - 90));
+        }
+
+        item.el.style.left = item.x + 'px';
+        item.el.style.top = item.y + 'px';
+        item.el.style.transform = `rotate(${item.rot}deg)`;
+      });
+      requestAnimationFrame(updatePhysics);
+    }
+  </script>
+</body>
+</html>

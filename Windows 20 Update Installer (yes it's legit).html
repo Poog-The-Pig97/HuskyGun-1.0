@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body style="background:#0078D7; color:white; font-family:sans-serif; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0;">
+    <h1>Working on updates <span id="dots">.</span></h1>
+    <h2 id="percent">0% complete</h2>
+    <p>Don't turn off your computer. This will take a while.</p>
+    <script>
+        let p = 0, d = 1;
+        setInterval(() => {
+            if (p < 99) p += Math.floor(Math.random() * 3);
+            document.getElementById('percent').innerText = p + '% complete';
+            d = (d % 3) + 1;
+            document.getElementById('dots').innerText = '.'.repeat(d);
+        }, 1000);
+    </script>
+</body>
+</html>
